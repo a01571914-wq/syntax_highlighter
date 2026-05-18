@@ -111,3 +111,14 @@ The theoretical complexity analysis matches the practical behavior of the progra
 9. Reflection on Ethical Implications
 Lexical analyzers and syntax highlighting technologies are widely used nowadays in software development tools, compilers, among others. These technologies improve productivity, readability, and learning for programmers, but however software analysis tools can also raise some ethical concerns because having advanced code analysis systems may be used to ,analyze proprietary code without permission, also automation tools based on lexical analysis are increasingly integrated into artificial intelligence systems. Yes it is clear that these tools help developers write better software, but they may also reduce opportunities for beginner programmers to develop problem-solving skills.
 For these reasons, it is important to use programming tools responsibly, respecting privacy, intellectual property, and academic integrity.
+
+10. References
+GeeksforGeeks. (2017, November 14). Time Complexity with Simple Examples. GeeksforGeeks. https://www.geeksforgeeks.org/dsa/understanding-time-complexity-simple-examples/
+
+Dixon, D. (2019, September 2). Learning Regex with Elixir. Medium. https://medium.com/@SomeDude_Drew/learning-regex-with-elixir-d65488621076
+‌
+GeeksforGeeks. (2023, August 21). C++ Tokens. GeeksforGeeks. https://www.geeksforgeeks.org/cpp/cpp-tokens/
+‌
+Ethical issues - Impacts of digital technology on wider society - Eduqas - GCSE Computer Science Revision - Eduqas - BBC Bitesize. (2019). BBC Bitesize. https://www.bbc.co.uk/bitesize/guides/zd726yc/revision/1
+‌
+‌
