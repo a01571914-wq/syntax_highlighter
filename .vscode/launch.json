@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Users/luisfelipeloeraportales/Desktop/Visual Studio/syntax_highlighter",
+      "program": "/Users/luisfelipeloeraportales/Desktop/Visual Studio/syntax_highlighter/build/Debug/outDebug"
+    }
+  ]
+}
