@@ -1,0 +1,125 @@
+<html>
+<head>
+  <link rel="stylesheet" href="token_colors.css">
+</head>
+
+<body>
+  <pre>
+<span class="keyword">include</span> <span class="operator"><</span><span class="identifier">iostream</span><span class="operator">></span>
+<span class="keyword">include</span> <span class="operator"><</span><span class="identifier">vector</span><span class="operator">></span>
+<span class="keyword">include</span> <span class="operator"><</span><span class="keyword">string</span><span class="operator">></span>
+
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="keyword">std</span><span class="delimiter">;</span>
+
+<span class="comment">// Base class</span>
+<span class="keyword">class</span> <span class="identifier">Animal</span> <span class="delimiter">{</span>
+<span class="keyword">protected</span>
+    <span class="keyword">string</span> <span class="identifier">name</span><span class="delimiter">;</span>
+
+<span class="keyword">public</span>
+    <span class="identifier">Animal</span><span class="delimiter">(</span><span class="keyword">string</span> <span class="identifier">n</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="identifier">name</span> <span class="operator">=</span> <span class="identifier">n</span><span class="delimiter">;</span>
+    <span class="delimiter">}</span>
+
+    <span class="keyword">virtual</span> <span class="keyword">void</span> <span class="identifier">speak</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">cout</span> <span class="operator"><<</span> <span class="identifier">Animal</span> <span class="identifier">sound</span> <span class="operator"><<</span> <span class="keyword">endl</span><span class="delimiter">;</span>
+    <span class="delimiter">}</span>
+<span class="delimiter">}</span><span class="delimiter">;</span>
+
+<span class="comment">// Derived class</span>
+<span class="keyword">class</span> <span class="identifier">Dog</span>  <span class="keyword">public</span> <span class="identifier">Animal</span> <span class="delimiter">{</span>
+
+<span class="keyword">public</span>
+    <span class="identifier">Dog</span><span class="delimiter">(</span><span class="keyword">string</span> <span class="identifier">n</span><span class="delimiter">)</span>  <span class="identifier">Animal</span><span class="delimiter">(</span><span class="identifier">n</span><span class="delimiter">)</span> <span class="delimiter">{</span><span class="delimiter">}</span>
+
+    <span class="keyword">void</span> <span class="identifier">speak</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="keyword">override</span> <span class="delimiter">{</span>
+        <span class="keyword">cout</span> <span class="operator"><<</span> <span class="identifier">name</span> <span class="operator"><<</span>  <span class="identifier">says</span> <span class="identifier">woof</span> <span class="operator"><<</span> <span class="keyword">endl</span><span class="delimiter">;</span>
+    <span class="delimiter">}</span>
+<span class="delimiter">}</span><span class="delimiter">;</span>
+
+<span class="comment">// Function template</span>
+<span class="keyword">template</span> <span class="operator"><</span><span class="keyword">typename</span> <span class="identifier">T</span><span class="operator">></span>
+<span class="identifier">T</span> <span class="identifier">add</span><span class="delimiter">(</span><span class="identifier">T</span> <span class="identifier">a</span><span class="delimiter">,</span> <span class="identifier">T</span> <span class="identifier">b</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+    <span class="keyword">return</span> <span class="identifier">a</span> <span class="operator">+</span> <span class="identifier">b</span><span class="delimiter">;</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/*
+   Main program
+*/</span>
+<span class="keyword">int</span> <span class="keyword">main</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+
+    <span class="keyword">int</span> <span class="identifier">age</span> <span class="operator">=</span> <span class="number">18</span><span class="delimiter">;</span>
+    <span class="keyword">float</span> <span class="identifier">average</span> <span class="operator">=</span> <span class="number">91.7</span><span class="delimiter">;</span>
+    <span class="keyword">char</span> <span class="identifier">grade</span> <span class="operator">=</span> <span class="identifier">A</span><span class="delimiter">;</span>
+
+    <span class="keyword">string</span> <span class="identifier">user</span><span class="delimiter">;</span>
+
+    <span class="keyword">cout</span> <span class="operator"><<</span> <span class="identifier">Enter</span> <span class="identifier">your</span> <span class="identifier">name</span> <span class="delimiter">;</span>
+    <span class="keyword">cin</span> <span class="operator">>></span> <span class="identifier">user</span><span class="delimiter">;</span>
+
+    <span class="keyword">cout</span> <span class="operator"><<</span> <span class="identifier">Welcome</span>  <span class="operator"><<</span> <span class="identifier">user</span> <span class="operator"><<</span> <span class="keyword">endl</span><span class="delimiter">;</span>
+
+    <span class="comment">// Vector example</span>
+    <span class="identifier">vector</span><span class="operator"><</span><span class="keyword">int</span><span class="operator">></span> <span class="identifier">numbers</span><span class="delimiter">;</span>
+
+    <span class="keyword">for</span> <span class="delimiter">(</span><span class="keyword">int</span> <span class="identifier">i</span> <span class="operator">=</span> <span class="number">0</span><span class="delimiter">;</span> <span class="identifier">i</span> <span class="operator"><</span> <span class="number">5</span><span class="delimiter">;</span> <span class="identifier">i</span><span class="operator">++</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="identifier">numbers</span><span class="identifier">push_back</span><span class="delimiter">(</span><span class="identifier">i</span> <span class="operator">*</span> <span class="number">2</span><span class="delimiter">)</span><span class="delimiter">;</span>
+    <span class="delimiter">}</span>
+
+    <span class="keyword">cout</span> <span class="operator"><<</span> <span class="identifier">Numbers</span> <span class="delimiter">;</span>
+
+    <span class="keyword">for</span> <span class="delimiter">(</span><span class="keyword">int</span> <span class="identifier">n</span>  <span class="identifier">numbers</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">cout</span> <span class="operator"><<</span> <span class="identifier">n</span> <span class="operator"><<</span>  <span class="delimiter">;</span>
+    <span class="delimiter">}</span>
+
+    <span class="keyword">cout</span> <span class="operator"><<</span> <span class="keyword">endl</span><span class="delimiter">;</span>
+
+    <span class="comment">// Conditional</span>
+    <span class="keyword">if</span> <span class="delimiter">(</span><span class="identifier">average</span> <span class="operator">>=</span> <span class="number">90</span> <span class="operator">&&</span> <span class="identifier">grade</span> <span class="operator">==</span> <span class="identifier">A</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">cout</span> <span class="operator"><<</span> <span class="identifier">Excellent</span> <span class="operator"><<</span> <span class="keyword">endl</span><span class="delimiter">;</span>
+    <span class="delimiter">}</span>
+    <span class="keyword">else</span> <span class="delimiter">{</span>
+        <span class="keyword">cout</span> <span class="operator"><<</span> <span class="identifier">Good</span> <span class="identifier">job</span> <span class="operator"><<</span> <span class="keyword">endl</span><span class="delimiter">;</span>
+    <span class="delimiter">}</span>
+
+    <span class="comment">// Switch statement</span>
+    <span class="keyword">switch</span><span class="delimiter">(</span><span class="identifier">age</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+
+        <span class="keyword">case</span> <span class="number">18</span>
+            <span class="keyword">cout</span> <span class="operator"><<</span> <span class="identifier">You</span> <span class="identifier">are</span> <span class="number">18</span> <span class="identifier">years</span> <span class="identifier">old</span> <span class="operator"><<</span> <span class="keyword">endl</span><span class="delimiter">;</span>
+            <span class="keyword">break</span><span class="delimiter">;</span>
+
+        <span class="keyword">default</span>
+            <span class="keyword">cout</span> <span class="operator"><<</span> <span class="identifier">Age</span> <span class="identifier">not</span> <span class="identifier">recognized</span> <span class="operator"><<</span> <span class="keyword">endl</span><span class="delimiter">;</span>
+    <span class="delimiter">}</span>
+
+    <span class="comment">// Object example</span>
+    <span class="identifier">Dog</span> <span class="identifier">d</span><span class="delimiter">(</span><span class="identifier">Rocky</span><span class="delimiter">)</span><span class="delimiter">;</span>
+    <span class="identifier">d</span><span class="identifier">speak</span><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">;</span>
+
+    <span class="comment">// Template function</span>
+    <span class="keyword">int</span> <span class="identifier">result</span> <span class="operator">=</span> <span class="identifier">add</span><span class="operator"><</span><span class="keyword">int</span><span class="operator">></span><span class="delimiter">(</span><span class="number">5</span><span class="delimiter">,</span> <span class="number">10</span><span class="delimiter">)</span><span class="delimiter">;</span>
+
+    <span class="keyword">cout</span> <span class="operator"><<</span> <span class="identifier">Result</span>  <span class="operator"><<</span> <span class="identifier">result</span> <span class="operator"><<</span> <span class="keyword">endl</span><span class="delimiter">;</span>
+
+    <span class="comment">// Try catch</span>
+    <span class="keyword">try</span> <span class="delimiter">{</span>
+        <span class="keyword">int</span> <span class="identifier">x</span> <span class="operator">=</span> <span class="number">10</span><span class="delimiter">;</span>
+        <span class="keyword">int</span> <span class="identifier">y</span> <span class="operator">=</span> <span class="number">0</span><span class="delimiter">;</span>
+
+        <span class="keyword">if</span> <span class="delimiter">(</span><span class="identifier">y</span> <span class="operator">==</span> <span class="number">0</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+            <span class="keyword">throw</span> <span class="identifier">runtime_error</span><span class="delimiter">(</span><span class="identifier">Division</span> <span class="identifier">by</span> <span class="identifier">zero</span><span class="delimiter">)</span><span class="delimiter">;</span>
+        <span class="delimiter">}</span>
+
+        <span class="keyword">cout</span> <span class="operator"><<</span> <span class="identifier">x</span> <span class="operator">/</span> <span class="identifier">y</span> <span class="operator"><<</span> <span class="keyword">endl</span><span class="delimiter">;</span>
+    <span class="delimiter">}</span>
+
+    <span class="keyword">catch</span><span class="delimiter">(</span><span class="identifier">exception</span> <span class="identifier">e</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">cout</span> <span class="operator"><<</span> <span class="identifier">e</span><span class="identifier">what</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="operator"><<</span> <span class="keyword">endl</span><span class="delimiter">;</span>
+    <span class="delimiter">}</span>
+
+    <span class="keyword">return</span> <span class="number">0</span><span class="delimiter">;</span>
+<span class="delimiter">}</span>
+  </pre>
+</body>
+</html>
