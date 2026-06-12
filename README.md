@@ -14,7 +14,7 @@ lexer/
 ├── cpp_examples/               # HTML output 
 ├── sequential.ex               # Sequential highlighter
 ├── parallel.ex                 # Parallel highlighter
-├── token_colors.css            # Token color styles
+├── token_colors.css            # Token color styles its inside cpp_examples
 └── README.md
 ```
 
