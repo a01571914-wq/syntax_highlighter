@@ -1,0 +1,32 @@
+/* token_colors.css */
+
+   body {
+    background-color: #1e1e1e;
+    color: #d4d4d4;
+    margin: 0;
+    padding: 0;
+  }
+  
+  pre {
+    font-family: "Cascadia Code", "Fira Code", "Consolas", "Courier New", monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 2em;
+    overflow-x: auto;
+  }
+  
+  /* ── Token colours ─────────────────────────────────────────────── */
+  
+  .comment     { color: #6a9955; font-style: italic; }   /* green          */
+  .preprocessor{ color: #c586c0; }                        /* purple/pink    */
+  .keyword     { color: #569cd6; font-weight: bold; }     /* blue           */
+  .string      { color: #ce9178; }                        /* orange         */
+  .char        { color: #ce9178; }                        /* orange         */
+  .number      { color: #b5cea8; }                        /* light green    */
+  .operator    { color: #d4d4d4; }                        /* default        */
+  .delimiter   { color: #808080; }                        /* grey           */
+  .identifier  { color: #9cdcfe; }                        /* light blue     */
+  .function    { color: #dcdcaa; }                        /* yellow         */
+  .class_name  { color: #4ec9b0; }                        /* teal           */
+  .constant    { color: #4fc1ff; font-weight: bold; }     /* bright blue    */
+  .unknown     { color: #f44747; }                        /* red — flag it  */
