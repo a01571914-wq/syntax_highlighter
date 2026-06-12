@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Syntax Highlight</title>
+  <link rel="stylesheet" href="token_colors.css">
+</head>
+<body>
+  <pre><span class="preprocessor">#include &lt;iostream&gt;</span>
+<span class="preprocessor">#include &lt;stdexcept&gt;</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="keyword">std</span><span class="delimiter">;</span>
+
+<span class="comment">// ============================================================</span>
+<span class="comment">//  Linked List - Singly linked list with a rich set of</span>
+<span class="comment">//  operations: insertion, deletion, search, reversal, cycle</span>
+<span class="comment">//  detection, and a doubly linked list variant for comparison</span>
+<span class="comment">// ============================================================</span>
+
+<span class="keyword">struct</span> <span class="class_name">Node</span> <span class="delimiter">{</span>
+    <span class="keyword">int</span> <span class="identifier">data</span><span class="delimiter">;</span>
+    <span class="class_name">Node</span><span class="operator">*</span> <span class="identifier">next</span><span class="delimiter">;</span>
+    <span class="function">Node</span><span class="delimiter">(</span><span class="keyword">int</span> <span class="identifier">val</span><span class="delimiter">)</span> <span class="unknown">:</span> <span class="function">data</span><span class="delimiter">(</span><span class="identifier">val</span><span class="delimiter">)</span><span class="delimiter">,</span> <span class="function">next</span><span class="delimiter">(</span><span class="identifier">nullptr</span><span class="delimiter">)</span> <span class="delimiter">{</span><span class="delimiter">}</span>
+<span class="delimiter">}</span><span class="delimiter">;</span>
+
+<span class="keyword">class</span> <span class="class_name">LinkedList</span> <span class="delimiter">{</span>
+<span class="keyword">private</span><span class="unknown">:</span>
+    <span class="class_name">Node</span><span class="operator">*</span> <span class="identifier">head</span><span class="delimiter">;</span>
+    <span class="keyword">int</span> <span class="identifier">length</span><span class="delimiter">;</span>
+
+<span class="keyword">public</span><span class="unknown">:</span>
+    <span class="function">LinkedList</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="unknown">:</span> <span class="function">head</span><span class="delimiter">(</span><span class="identifier">nullptr</span><span class="delimiter">)</span><span class="delimiter">,</span> <span class="function">length</span><span class="delimiter">(</span><span class="number">0</span><span class="delimiter">)</span> <span class="delimiter">{</span><span class="delimiter">}</span>
+
+    <span class="comment">// Insert at the front of the list - O(1)</span>
+    <span class="keyword">void</span> <span class="function">push</span><span class="delimiter">(</span><span class="keyword">int</span> <span class="identifier">val</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="class_name">Node</span><span class="operator">*</span> <span class="identifier">newNode</span> <span class="operator">=</span> <span class="identifier">new</span> <span class="function">Node</span><span class="delimiter">(</span><span class="identifier">val</span><span class="delimiter">)</span><span class="delimiter">;</span>
+        <span class="identifier">newNode</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span> <span class="operator">=</span> <span class="identifier">head</span><span class="delimiter">;</span>
+        <span class="identifier">head</span> <span class="operator">=</span> <span class="identifier">newNode</span><span class="delimiter">;</span>
+        <span class="identifier">length</span><span class="operator">++</span><span class="delimiter">;</span>
+    <span class="delimiter">}</span>
+
+    <span class="comment">// Insert at the end of the list - O(n)</span>
+    <span class="keyword">void</span> <span class="function">append</span><span class="delimiter">(</span><span class="keyword">int</span> <span class="identifier">val</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="class_name">Node</span><span class="operator">*</span> <span class="identifier">newNode</span> <span class="operator">=</span> <span class="identifier">new</span> <span class="function">Node</span><span class="delimiter">(</span><span class="identifier">val</span><span class="delimiter">)</span><span class="delimiter">;</span>
+        <span class="keyword">if</span> <span class="delimiter">(</span><span class="operator">!</span><span class="identifier">head</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+            <span class="identifier">head</span> <span class="operator">=</span> <span class="identifier">newNode</span><span class="delimiter">;</span>
+        <span class="delimiter">}</span> <span class="keyword">else</span> <span class="delimiter">{</span>
+            <span class="class_name">Node</span><span class="operator">*</span> <span class="identifier">curr</span> <span class="operator">=</span> <span class="identifier">head</span><span class="delimiter">;</span>
+            <span class="keyword">while</span> <span class="delimiter">(</span><span class="identifier">curr</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span><span class="delimiter">)</span> <span class="identifier">curr</span> <span class="operator">=</span> <span class="identifier">curr</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span><span class="delimiter">;</span>
+            <span class="identifier">curr</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span> <span class="operator">=</span> <span class="identifier">newNode</span><span class="delimiter">;</span>
+        <span class="delimiter">}</span>
+        <span class="identifier">length</span><span class="operator">++</span><span class="delimiter">;</span>
+    <span class="delimiter">}</span>
+
+    <span class="comment">// Insert at a specific 0-based index</span>
+    <span class="keyword">void</span> <span class="function">insertAt</span><span class="delimiter">(</span><span class="keyword">int</span> <span class="identifier">index</span><span class="delimiter">,</span> <span class="keyword">int</span> <span class="identifier">val</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">if</span> <span class="delimiter">(</span><span class="identifier">index</span> <span class="operator">&lt;</span> <span class="number">0</span> <span class="operator">||</span> <span class="identifier">index</span> <span class="operator">&gt;</span> <span class="identifier">length</span><span class="delimiter">)</span>
+            <span class="keyword">throw</span> <span class="function">out_of_range</span><span class="delimiter">(</span><span class="string">&quot;Index out of range&quot;</span><span class="delimiter">)</span><span class="delimiter">;</span>
+        <span class="keyword">if</span> <span class="delimiter">(</span><span class="identifier">index</span> <span class="operator">==</span> <span class="number">0</span><span class="delimiter">)</span> <span class="delimiter">{</span> <span class="function">push</span><span class="delimiter">(</span><span class="identifier">val</span><span class="delimiter">)</span><span class="delimiter">;</span> <span class="keyword">return</span><span class="delimiter">;</span> <span class="delimiter">}</span>
+
+        <span class="class_name">Node</span><span class="operator">*</span> <span class="identifier">newNode</span> <span class="operator">=</span> <span class="identifier">new</span> <span class="function">Node</span><span class="delimiter">(</span><span class="identifier">val</span><span class="delimiter">)</span><span class="delimiter">;</span>
+        <span class="class_name">Node</span><span class="operator">*</span> <span class="identifier">curr</span> <span class="operator">=</span> <span class="identifier">head</span><span class="delimiter">;</span>
+        <span class="keyword">for</span> <span class="delimiter">(</span><span class="keyword">int</span> <span class="identifier">i</span> <span class="operator">=</span> <span class="number">0</span><span class="delimiter">;</span> <span class="identifier">i</span> <span class="operator">&lt;</span> <span class="identifier">index</span> <span class="operator">-</span> <span class="number">1</span><span class="delimiter">;</span> <span class="identifier">i</span><span class="operator">++</span><span class="delimiter">)</span> <span class="identifier">curr</span> <span class="operator">=</span> <span class="identifier">curr</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span><span class="delimiter">;</span>
+        <span class="identifier">newNode</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span> <span class="operator">=</span> <span class="identifier">curr</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span><span class="delimiter">;</span>
+        <span class="identifier">curr</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span> <span class="operator">=</span> <span class="identifier">newNode</span><span class="delimiter">;</span>
+        <span class="identifier">length</span><span class="operator">++</span><span class="delimiter">;</span>
+    <span class="delimiter">}</span>
+
+    <span class="comment">// Remove the first node with the given value; returns true if removed</span>
+    <span class="identifier">bool</span> <span class="function">remove</span><span class="delimiter">(</span><span class="keyword">int</span> <span class="identifier">val</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">if</span> <span class="delimiter">(</span><span class="operator">!</span><span class="identifier">head</span><span class="delimiter">)</span> <span class="keyword">return</span> <span class="identifier">false</span><span class="delimiter">;</span>
+        <span class="keyword">if</span> <span class="delimiter">(</span><span class="identifier">head</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">data</span> <span class="operator">==</span> <span class="identifier">val</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+            <span class="class_name">Node</span><span class="operator">*</span> <span class="identifier">toDelete</span> <span class="operator">=</span> <span class="identifier">head</span><span class="delimiter">;</span>
+            <span class="identifier">head</span> <span class="operator">=</span> <span class="identifier">head</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span><span class="delimiter">;</span>
+            <span class="identifier">delete</span> <span class="identifier">toDelete</span><span class="delimiter">;</span>
+            <span class="identifier">length</span><span class="operator">--</span><span class="delimiter">;</span>
+            <span class="keyword">return</span> <span class="identifier">true</span><span class="delimiter">;</span>
+        <span class="delimiter">}</span>
+        <span class="class_name">Node</span><span class="operator">*</span> <span class="identifier">curr</span> <span class="operator">=</span> <span class="identifier">head</span><span class="delimiter">;</span>
+        <span class="keyword">while</span> <span class="delimiter">(</span><span class="identifier">curr</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span> <span class="operator">&amp;&amp;</span> <span class="identifier">curr</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">data</span> <span class="operator">!=</span> <span class="identifier">val</span><span class="delimiter">)</span> <span class="identifier">curr</span> <span class="operator">=</span> <span class="identifier">curr</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span><span class="delimiter">;</span>
+        <span class="keyword">if</span> <span class="delimiter">(</span><span class="operator">!</span><span class="identifier">curr</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span><span class="delimiter">)</span> <span class="keyword">return</span> <span class="identifier">false</span><span class="delimiter">;</span>
+        <span class="class_name">Node</span><span class="operator">*</span> <span class="identifier">toDelete</span> <span class="operator">=</span> <span class="identifier">curr</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span><span class="delimiter">;</span>
+        <span class="identifier">curr</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span> <span class="operator">=</span> <span class="identifier">toDelete</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span><span class="delimiter">;</span>
+        <span class="identifier">delete</span> <span class="identifier">toDelete</span><span class="delimiter">;</span>
+        <span class="identifier">length</span><span class="operator">--</span><span class="delimiter">;</span>
+        <span class="keyword">return</span> <span class="identifier">true</span><span class="delimiter">;</span>
+    <span class="delimiter">}</span>
+
+    <span class="comment">// Remove node at a specific index</span>
+    <span class="keyword">void</span> <span class="function">removeAt</span><span class="delimiter">(</span><span class="keyword">int</span> <span class="identifier">index</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">if</span> <span class="delimiter">(</span><span class="identifier">index</span> <span class="operator">&lt;</span> <span class="number">0</span> <span class="operator">||</span> <span class="identifier">index</span> <span class="operator">&gt;=</span> <span class="identifier">length</span><span class="delimiter">)</span>
+            <span class="keyword">throw</span> <span class="function">out_of_range</span><span class="delimiter">(</span><span class="string">&quot;Index out of range&quot;</span><span class="delimiter">)</span><span class="delimiter">;</span>
+        <span class="class_name">Node</span><span class="operator">*</span> <span class="identifier">toDelete</span><span class="delimiter">;</span>
+        <span class="keyword">if</span> <span class="delimiter">(</span><span class="identifier">index</span> <span class="operator">==</span> <span class="number">0</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+            <span class="identifier">toDelete</span> <span class="operator">=</span> <span class="identifier">head</span><span class="delimiter">;</span>
+            <span class="identifier">head</span> <span class="operator">=</span> <span class="identifier">head</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span><span class="delimiter">;</span>
+        <span class="delimiter">}</span> <span class="keyword">else</span> <span class="delimiter">{</span>
+            <span class="class_name">Node</span><span class="operator">*</span> <span class="identifier">curr</span> <span class="operator">=</span> <span class="identifier">head</span><span class="delimiter">;</span>
+            <span class="keyword">for</span> <span class="delimiter">(</span><span class="keyword">int</span> <span class="identifier">i</span> <span class="operator">=</span> <span class="number">0</span><span class="delimiter">;</span> <span class="identifier">i</span> <span class="operator">&lt;</span> <span class="identifier">index</span> <span class="operator">-</span> <span class="number">1</span><span class="delimiter">;</span> <span class="identifier">i</span><span class="operator">++</span><span class="delimiter">)</span> <span class="identifier">curr</span> <span class="operator">=</span> <span class="identifier">curr</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span><span class="delimiter">;</span>
+            <span class="identifier">toDelete</span> <span class="operator">=</span> <span class="identifier">curr</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span><span class="delimiter">;</span>
+            <span class="identifier">curr</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span> <span class="operator">=</span> <span class="identifier">toDelete</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span><span class="delimiter">;</span>
+        <span class="delimiter">}</span>
+        <span class="identifier">delete</span> <span class="identifier">toDelete</span><span class="delimiter">;</span>
+        <span class="identifier">length</span><span class="operator">--</span><span class="delimiter">;</span>
+    <span class="delimiter">}</span>
+
+    <span class="comment">// Search for a value, returning its index or -1 if not found</span>
+    <span class="keyword">int</span> <span class="function">find</span><span class="delimiter">(</span><span class="keyword">int</span> <span class="identifier">val</span><span class="delimiter">)</span> <span class="keyword">const</span> <span class="delimiter">{</span>
+        <span class="class_name">Node</span><span class="operator">*</span> <span class="identifier">curr</span> <span class="operator">=</span> <span class="identifier">head</span><span class="delimiter">;</span>
+        <span class="keyword">int</span> <span class="identifier">index</span> <span class="operator">=</span> <span class="number">0</span><span class="delimiter">;</span>
+        <span class="keyword">while</span> <span class="delimiter">(</span><span class="identifier">curr</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+            <span class="keyword">if</span> <span class="delimiter">(</span><span class="identifier">curr</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">data</span> <span class="operator">==</span> <span class="identifier">val</span><span class="delimiter">)</span> <span class="keyword">return</span> <span class="identifier">index</span><span class="delimiter">;</span>
+            <span class="identifier">curr</span> <span class="operator">=</span> <span class="identifier">curr</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span><span class="delimiter">;</span>
+            <span class="identifier">index</span><span class="operator">++</span><span class="delimiter">;</span>
+        <span class="delimiter">}</span>
+        <span class="keyword">return</span> <span class="operator">-</span><span class="number">1</span><span class="delimiter">;</span>
+    <span class="delimiter">}</span>
+
+    <span class="comment">// Get the value at a specific index</span>
+    <span class="keyword">int</span> <span class="function">get</span><span class="delimiter">(</span><span class="keyword">int</span> <span class="identifier">index</span><span class="delimiter">)</span> <span class="keyword">const</span> <span class="delimiter">{</span>
+        <span class="keyword">if</span> <span class="delimiter">(</span><span class="identifier">index</span> <span class="operator">&lt;</span> <span class="number">0</span> <span class="operator">||</span> <span class="identifier">index</span> <span class="operator">&gt;=</span> <span class="identifier">length</span><span class="delimiter">)</span>
+            <span class="keyword">throw</span> <span class="function">out_of_range</span><span class="delimiter">(</span><span class="string">&quot;Index out of range&quot;</span><span class="delimiter">)</span><span class="delimiter">;</span>
+        <span class="class_name">Node</span><span class="operator">*</span> <span class="identifier">curr</span> <span class="operator">=</span> <span class="identifier">head</span><span class="delimiter">;</span>
+        <span class="keyword">for</span> <span class="delimiter">(</span><span class="keyword">int</span> <span class="identifier">i</span> <span class="operator">=</span> <span class="number">0</span><span class="delimiter">;</span> <span class="identifier">i</span> <span class="operator">&lt;</span> <span class="identifier">index</span><span class="delimiter">;</span> <span class="identifier">i</span><span class="operator">++</span><span class="delimiter">)</span> <span class="identifier">curr</span> <span class="operator">=</span> <span class="identifier">curr</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span><span class="delimiter">;</span>
+        <span class="keyword">return</span> <span class="identifier">curr</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">data</span><span class="delimiter">;</span>
+    <span class="delimiter">}</span>
+
+    <span class="keyword">int</span> <span class="function">size</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="keyword">const</span> <span class="delimiter">{</span> <span class="keyword">return</span> <span class="identifier">length</span><span class="delimiter">;</span> <span class="delimiter">}</span>
+    <span class="identifier">bool</span> <span class="function">isEmpty</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="keyword">const</span> <span class="delimiter">{</span> <span class="keyword">return</span> <span class="identifier">length</span> <span class="operator">==</span> <span class="number">0</span><span class="delimiter">;</span> <span class="delimiter">}</span>
+
+    <span class="comment">// Reverse the list in place by relinking pointers</span>
+    <span class="keyword">void</span> <span class="function">reverse</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="class_name">Node</span><span class="operator">*</span> <span class="identifier">prev</span> <span class="operator">=</span> <span class="identifier">nullptr</span><span class="delimiter">;</span>
+        <span class="class_name">Node</span><span class="operator">*</span> <span class="identifier">curr</span> <span class="operator">=</span> <span class="identifier">head</span><span class="delimiter">;</span>
+        <span class="keyword">while</span> <span class="delimiter">(</span><span class="identifier">curr</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+            <span class="class_name">Node</span><span class="operator">*</span> <span class="identifier">next</span> <span class="operator">=</span> <span class="identifier">curr</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span><span class="delimiter">;</span>
+            <span class="identifier">curr</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span> <span class="operator">=</span> <span class="identifier">prev</span><span class="delimiter">;</span>
+            <span class="identifier">prev</span> <span class="operator">=</span> <span class="identifier">curr</span><span class="delimiter">;</span>
+            <span class="identifier">curr</span> <span class="operator">=</span> <span class="identifier">next</span><span class="delimiter">;</span>
+        <span class="delimiter">}</span>
+        <span class="identifier">head</span> <span class="operator">=</span> <span class="identifier">prev</span><span class="delimiter">;</span>
+    <span class="delimiter">}</span>
+
+    <span class="comment">// Return the middle element using the slow/fast pointer technique</span>
+    <span class="keyword">int</span> <span class="function">findMiddle</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="keyword">const</span> <span class="delimiter">{</span>
+        <span class="keyword">if</span> <span class="delimiter">(</span><span class="operator">!</span><span class="identifier">head</span><span class="delimiter">)</span> <span class="keyword">throw</span> <span class="function">runtime_error</span><span class="delimiter">(</span><span class="string">&quot;List is empty&quot;</span><span class="delimiter">)</span><span class="delimiter">;</span>
+        <span class="class_name">Node</span><span class="operator">*</span> <span class="identifier">slow</span> <span class="operator">=</span> <span class="identifier">head</span><span class="delimiter">;</span>
+        <span class="class_name">Node</span><span class="operator">*</span> <span class="identifier">fast</span> <span class="operator">=</span> <span class="identifier">head</span><span class="delimiter">;</span>
+        <span class="keyword">while</span> <span class="delimiter">(</span><span class="identifier">fast</span> <span class="operator">&amp;&amp;</span> <span class="identifier">fast</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+            <span class="identifier">slow</span> <span class="operator">=</span> <span class="identifier">slow</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span><span class="delimiter">;</span>
+            <span class="identifier">fast</span> <span class="operator">=</span> <span class="identifier">fast</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span><span class="delimiter">;</span>
+        <span class="delimiter">}</span>
+        <span class="keyword">return</span> <span class="identifier">slow</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">data</span><span class="delimiter">;</span>
+    <span class="delimiter">}</span>
+
+    <span class="comment">// Detect whether the list has a cycle (Floyd's algorithm)</span>
+    <span class="identifier">bool</span> <span class="function">hasCycle</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="keyword">const</span> <span class="delimiter">{</span>
+        <span class="class_name">Node</span><span class="operator">*</span> <span class="identifier">slow</span> <span class="operator">=</span> <span class="identifier">head</span><span class="delimiter">;</span>
+        <span class="class_name">Node</span><span class="operator">*</span> <span class="identifier">fast</span> <span class="operator">=</span> <span class="identifier">head</span><span class="delimiter">;</span>
+        <span class="keyword">while</span> <span class="delimiter">(</span><span class="identifier">fast</span> <span class="operator">&amp;&amp;</span> <span class="identifier">fast</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+            <span class="identifier">slow</span> <span class="operator">=</span> <span class="identifier">slow</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span><span class="delimiter">;</span>
+            <span class="identifier">fast</span> <span class="operator">=</span> <span class="identifier">fast</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span><span class="delimiter">;</span>
+            <span class="keyword">if</span> <span class="delimiter">(</span><span class="identifier">slow</span> <span class="operator">==</span> <span class="identifier">fast</span><span class="delimiter">)</span> <span class="keyword">return</span> <span class="identifier">true</span><span class="delimiter">;</span>
+        <span class="delimiter">}</span>
+        <span class="keyword">return</span> <span class="identifier">false</span><span class="delimiter">;</span>
+    <span class="delimiter">}</span>
+
+    <span class="comment">// Remove duplicate values, keeping the first occurrence of each</span>
+    <span class="keyword">void</span> <span class="function">removeDuplicates</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">if</span> <span class="delimiter">(</span><span class="operator">!</span><span class="identifier">head</span><span class="delimiter">)</span> <span class="keyword">return</span><span class="delimiter">;</span>
+        <span class="class_name">Node</span><span class="operator">*</span> <span class="identifier">curr</span> <span class="operator">=</span> <span class="identifier">head</span><span class="delimiter">;</span>
+        <span class="keyword">while</span> <span class="delimiter">(</span><span class="identifier">curr</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+            <span class="class_name">Node</span><span class="operator">*</span> <span class="identifier">runner</span> <span class="operator">=</span> <span class="identifier">curr</span><span class="delimiter">;</span>
+            <span class="keyword">while</span> <span class="delimiter">(</span><span class="identifier">runner</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+                <span class="keyword">if</span> <span class="delimiter">(</span><span class="identifier">runner</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">data</span> <span class="operator">==</span> <span class="identifier">curr</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">data</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+                    <span class="class_name">Node</span><span class="operator">*</span> <span class="identifier">toDelete</span> <span class="operator">=</span> <span class="identifier">runner</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span><span class="delimiter">;</span>
+                    <span class="identifier">runner</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span> <span class="operator">=</span> <span class="identifier">toDelete</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span><span class="delimiter">;</span>
+                    <span class="identifier">delete</span> <span class="identifier">toDelete</span><span class="delimiter">;</span>
+                    <span class="identifier">length</span><span class="operator">--</span><span class="delimiter">;</span>
+                <span class="delimiter">}</span> <span class="keyword">else</span> <span class="delimiter">{</span>
+                    <span class="identifier">runner</span> <span class="operator">=</span> <span class="identifier">runner</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span><span class="delimiter">;</span>
+                <span class="delimiter">}</span>
+            <span class="delimiter">}</span>
+            <span class="identifier">curr</span> <span class="operator">=</span> <span class="identifier">curr</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span><span class="delimiter">;</span>
+        <span class="delimiter">}</span>
+    <span class="delimiter">}</span>
+
+    <span class="comment">// Merge another sorted list into this sorted list, producing a sorted result</span>
+    <span class="keyword">static</span> <span class="class_name">LinkedList</span> <span class="function">mergeSorted</span><span class="delimiter">(</span><span class="keyword">const</span> <span class="class_name">LinkedList</span><span class="operator">&amp;</span> <span class="identifier">a</span><span class="delimiter">,</span> <span class="keyword">const</span> <span class="class_name">LinkedList</span><span class="operator">&amp;</span> <span class="identifier">b</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="class_name">LinkedList</span> <span class="identifier">result</span><span class="delimiter">;</span>
+        <span class="class_name">Node</span><span class="operator">*</span> <span class="identifier">pa</span> <span class="operator">=</span> <span class="identifier">a</span><span class="unknown">.</span><span class="identifier">head</span><span class="delimiter">;</span>
+        <span class="class_name">Node</span><span class="operator">*</span> <span class="identifier">pb</span> <span class="operator">=</span> <span class="identifier">b</span><span class="unknown">.</span><span class="identifier">head</span><span class="delimiter">;</span>
+        <span class="comment">// Build a new list by repeatedly appending the smaller front value</span>
+        <span class="keyword">while</span> <span class="delimiter">(</span><span class="identifier">pa</span> <span class="operator">||</span> <span class="identifier">pb</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+            <span class="keyword">if</span> <span class="delimiter">(</span><span class="identifier">pa</span> <span class="operator">&amp;&amp;</span> <span class="delimiter">(</span><span class="operator">!</span><span class="identifier">pb</span> <span class="operator">||</span> <span class="identifier">pa</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">data</span> <span class="operator">&lt;=</span> <span class="identifier">pb</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">data</span><span class="delimiter">)</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+                <span class="identifier">result</span><span class="unknown">.</span><span class="function">append</span><span class="delimiter">(</span><span class="identifier">pa</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">data</span><span class="delimiter">)</span><span class="delimiter">;</span>
+                <span class="identifier">pa</span> <span class="operator">=</span> <span class="identifier">pa</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span><span class="delimiter">;</span>
+            <span class="delimiter">}</span> <span class="keyword">else</span> <span class="delimiter">{</span>
+                <span class="identifier">result</span><span class="unknown">.</span><span class="function">append</span><span class="delimiter">(</span><span class="identifier">pb</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">data</span><span class="delimiter">)</span><span class="delimiter">;</span>
+                <span class="identifier">pb</span> <span class="operator">=</span> <span class="identifier">pb</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span><span class="delimiter">;</span>
+            <span class="delimiter">}</span>
+        <span class="delimiter">}</span>
+        <span class="keyword">return</span> <span class="identifier">result</span><span class="delimiter">;</span>
+    <span class="delimiter">}</span>
+
+    <span class="keyword">void</span> <span class="function">print</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="keyword">const</span> <span class="delimiter">{</span>
+        <span class="class_name">Node</span><span class="operator">*</span> <span class="identifier">curr</span> <span class="operator">=</span> <span class="identifier">head</span><span class="delimiter">;</span>
+        <span class="keyword">while</span> <span class="delimiter">(</span><span class="identifier">curr</span> <span class="operator">!=</span> <span class="identifier">nullptr</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+            <span class="keyword">cout</span> <span class="operator">&lt;&lt;</span> <span class="identifier">curr</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">data</span> <span class="operator">&lt;&lt;</span> <span class="string">&quot; -&gt; &quot;</span><span class="delimiter">;</span>
+            <span class="identifier">curr</span> <span class="operator">=</span> <span class="identifier">curr</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span><span class="delimiter">;</span>
+        <span class="delimiter">}</span>
+        <span class="keyword">cout</span> <span class="operator">&lt;&lt;</span> <span class="string">&quot;NULL&quot;</span> <span class="operator">&lt;&lt;</span> <span class="keyword">endl</span><span class="delimiter">;</span>
+    <span class="delimiter">}</span>
+
+    <span class="operator">~</span><span class="function">LinkedList</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="class_name">Node</span><span class="operator">*</span> <span class="identifier">curr</span> <span class="operator">=</span> <span class="identifier">head</span><span class="delimiter">;</span>
+        <span class="keyword">while</span> <span class="delimiter">(</span><span class="identifier">curr</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+            <span class="class_name">Node</span><span class="operator">*</span> <span class="identifier">next</span> <span class="operator">=</span> <span class="identifier">curr</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span><span class="delimiter">;</span>
+            <span class="identifier">delete</span> <span class="identifier">curr</span><span class="delimiter">;</span>
+            <span class="identifier">curr</span> <span class="operator">=</span> <span class="identifier">next</span><span class="delimiter">;</span>
+        <span class="delimiter">}</span>
+    <span class="delimiter">}</span>
+<span class="delimiter">}</span><span class="delimiter">;</span>
+
+<span class="comment">// A doubly linked list, included for comparison with the singly linked list above</span>
+<span class="keyword">struct</span> <span class="class_name">DNode</span> <span class="delimiter">{</span>
+    <span class="keyword">int</span> <span class="identifier">data</span><span class="delimiter">;</span>
+    <span class="class_name">DNode</span><span class="operator">*</span> <span class="identifier">prev</span><span class="delimiter">;</span>
+    <span class="class_name">DNode</span><span class="operator">*</span> <span class="identifier">next</span><span class="delimiter">;</span>
+    <span class="function">DNode</span><span class="delimiter">(</span><span class="keyword">int</span> <span class="identifier">val</span><span class="delimiter">)</span> <span class="unknown">:</span> <span class="function">data</span><span class="delimiter">(</span><span class="identifier">val</span><span class="delimiter">)</span><span class="delimiter">,</span> <span class="function">prev</span><span class="delimiter">(</span><span class="identifier">nullptr</span><span class="delimiter">)</span><span class="delimiter">,</span> <span class="function">next</span><span class="delimiter">(</span><span class="identifier">nullptr</span><span class="delimiter">)</span> <span class="delimiter">{</span><span class="delimiter">}</span>
+<span class="delimiter">}</span><span class="delimiter">;</span>
+
+<span class="keyword">class</span> <span class="class_name">DoublyLinkedList</span> <span class="delimiter">{</span>
+<span class="keyword">private</span><span class="unknown">:</span>
+    <span class="class_name">DNode</span><span class="operator">*</span> <span class="identifier">head</span><span class="delimiter">;</span>
+    <span class="class_name">DNode</span><span class="operator">*</span> <span class="identifier">tail</span><span class="delimiter">;</span>
+    <span class="keyword">int</span> <span class="identifier">length</span><span class="delimiter">;</span>
+
+<span class="keyword">public</span><span class="unknown">:</span>
+    <span class="function">DoublyLinkedList</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="unknown">:</span> <span class="function">head</span><span class="delimiter">(</span><span class="identifier">nullptr</span><span class="delimiter">)</span><span class="delimiter">,</span> <span class="function">tail</span><span class="delimiter">(</span><span class="identifier">nullptr</span><span class="delimiter">)</span><span class="delimiter">,</span> <span class="function">length</span><span class="delimiter">(</span><span class="number">0</span><span class="delimiter">)</span> <span class="delimiter">{</span><span class="delimiter">}</span>
+
+    <span class="keyword">void</span> <span class="function">pushFront</span><span class="delimiter">(</span><span class="keyword">int</span> <span class="identifier">val</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="class_name">DNode</span><span class="operator">*</span> <span class="identifier">node</span> <span class="operator">=</span> <span class="identifier">new</span> <span class="function">DNode</span><span class="delimiter">(</span><span class="identifier">val</span><span class="delimiter">)</span><span class="delimiter">;</span>
+        <span class="identifier">node</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span> <span class="operator">=</span> <span class="identifier">head</span><span class="delimiter">;</span>
+        <span class="keyword">if</span> <span class="delimiter">(</span><span class="identifier">head</span><span class="delimiter">)</span> <span class="identifier">head</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">prev</span> <span class="operator">=</span> <span class="identifier">node</span><span class="delimiter">;</span>
+        <span class="identifier">head</span> <span class="operator">=</span> <span class="identifier">node</span><span class="delimiter">;</span>
+        <span class="keyword">if</span> <span class="delimiter">(</span><span class="operator">!</span><span class="identifier">tail</span><span class="delimiter">)</span> <span class="identifier">tail</span> <span class="operator">=</span> <span class="identifier">head</span><span class="delimiter">;</span>
+        <span class="identifier">length</span><span class="operator">++</span><span class="delimiter">;</span>
+    <span class="delimiter">}</span>
+
+    <span class="keyword">void</span> <span class="function">pushBack</span><span class="delimiter">(</span><span class="keyword">int</span> <span class="identifier">val</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="class_name">DNode</span><span class="operator">*</span> <span class="identifier">node</span> <span class="operator">=</span> <span class="identifier">new</span> <span class="function">DNode</span><span class="delimiter">(</span><span class="identifier">val</span><span class="delimiter">)</span><span class="delimiter">;</span>
+        <span class="identifier">node</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">prev</span> <span class="operator">=</span> <span class="identifier">tail</span><span class="delimiter">;</span>
+        <span class="keyword">if</span> <span class="delimiter">(</span><span class="identifier">tail</span><span class="delimiter">)</span> <span class="identifier">tail</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span> <span class="operator">=</span> <span class="identifier">node</span><span class="delimiter">;</span>
+        <span class="identifier">tail</span> <span class="operator">=</span> <span class="identifier">node</span><span class="delimiter">;</span>
+        <span class="keyword">if</span> <span class="delimiter">(</span><span class="operator">!</span><span class="identifier">head</span><span class="delimiter">)</span> <span class="identifier">head</span> <span class="operator">=</span> <span class="identifier">tail</span><span class="delimiter">;</span>
+        <span class="identifier">length</span><span class="operator">++</span><span class="delimiter">;</span>
+    <span class="delimiter">}</span>
+
+    <span class="keyword">void</span> <span class="function">printForward</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="keyword">const</span> <span class="delimiter">{</span>
+        <span class="class_name">DNode</span><span class="operator">*</span> <span class="identifier">curr</span> <span class="operator">=</span> <span class="identifier">head</span><span class="delimiter">;</span>
+        <span class="keyword">cout</span> <span class="operator">&lt;&lt;</span> <span class="string">&quot;Forward: &quot;</span><span class="delimiter">;</span>
+        <span class="keyword">while</span> <span class="delimiter">(</span><span class="identifier">curr</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+            <span class="keyword">cout</span> <span class="operator">&lt;&lt;</span> <span class="identifier">curr</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">data</span> <span class="operator">&lt;&lt;</span> <span class="string">&quot; &quot;</span><span class="delimiter">;</span>
+            <span class="identifier">curr</span> <span class="operator">=</span> <span class="identifier">curr</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span><span class="delimiter">;</span>
+        <span class="delimiter">}</span>
+        <span class="keyword">cout</span> <span class="operator">&lt;&lt;</span> <span class="keyword">endl</span><span class="delimiter">;</span>
+    <span class="delimiter">}</span>
+
+    <span class="keyword">void</span> <span class="function">printBackward</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="keyword">const</span> <span class="delimiter">{</span>
+        <span class="class_name">DNode</span><span class="operator">*</span> <span class="identifier">curr</span> <span class="operator">=</span> <span class="identifier">tail</span><span class="delimiter">;</span>
+        <span class="keyword">cout</span> <span class="operator">&lt;&lt;</span> <span class="string">&quot;Backward: &quot;</span><span class="delimiter">;</span>
+        <span class="keyword">while</span> <span class="delimiter">(</span><span class="identifier">curr</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+            <span class="keyword">cout</span> <span class="operator">&lt;&lt;</span> <span class="identifier">curr</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">data</span> <span class="operator">&lt;&lt;</span> <span class="string">&quot; &quot;</span><span class="delimiter">;</span>
+            <span class="identifier">curr</span> <span class="operator">=</span> <span class="identifier">curr</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">prev</span><span class="delimiter">;</span>
+        <span class="delimiter">}</span>
+        <span class="keyword">cout</span> <span class="operator">&lt;&lt;</span> <span class="keyword">endl</span><span class="delimiter">;</span>
+    <span class="delimiter">}</span>
+
+    <span class="keyword">int</span> <span class="function">size</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="keyword">const</span> <span class="delimiter">{</span> <span class="keyword">return</span> <span class="identifier">length</span><span class="delimiter">;</span> <span class="delimiter">}</span>
+
+    <span class="operator">~</span><span class="function">DoublyLinkedList</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="class_name">DNode</span><span class="operator">*</span> <span class="identifier">curr</span> <span class="operator">=</span> <span class="identifier">head</span><span class="delimiter">;</span>
+        <span class="keyword">while</span> <span class="delimiter">(</span><span class="identifier">curr</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+            <span class="class_name">DNode</span><span class="operator">*</span> <span class="identifier">next</span> <span class="operator">=</span> <span class="identifier">curr</span><span class="operator">-</span><span class="operator">&gt;</span><span class="identifier">next</span><span class="delimiter">;</span>
+            <span class="identifier">delete</span> <span class="identifier">curr</span><span class="delimiter">;</span>
+            <span class="identifier">curr</span> <span class="operator">=</span> <span class="identifier">next</span><span class="delimiter">;</span>
+        <span class="delimiter">}</span>
+    <span class="delimiter">}</span>
+<span class="delimiter">}</span><span class="delimiter">;</span>
+
+<span class="keyword">int</span> <span class="keyword">main</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+    <span class="keyword">cout</span> <span class="operator">&lt;&lt;</span> <span class="string">&quot;=== Basic Push and Print ===&quot;</span> <span class="operator">&lt;&lt;</span> <span class="keyword">endl</span><span class="delimiter">;</span>
+    <span class="class_name">LinkedList</span> <span class="identifier">list</span><span class="delimiter">;</span>
+    <span class="identifier">list</span><span class="unknown">.</span><span class="function">push</span><span class="delimiter">(</span><span class="number">3</span><span class="delimiter">)</span><span class="delimiter">;</span>
+    <span class="identifier">list</span><span class="unknown">.</span><span class="function">push</span><span class="delimiter">(</span><span class="number">2</span><span class="delimiter">)</span><span class="delimiter">;</span>
+    <span class="identifier">list</span><span class="unknown">.</span><span class="function">push</span><span class="delimiter">(</span><span class="number">1</span><span class="delimiter">)</span><span class="delimiter">;</span>
+    <span class="identifier">list</span><span class="unknown">.</span><span class="function">print</span><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">;</span> <span class="comment">// 1 -&gt; 2 -&gt; 3 -&gt; NULL</span>
+
+    <span class="keyword">cout</span> <span class="operator">&lt;&lt;</span> <span class="keyword">endl</span> <span class="operator">&lt;&lt;</span> <span class="string">&quot;=== Append ===&quot;</span> <span class="operator">&lt;&lt;</span> <span class="keyword">endl</span><span class="delimiter">;</span>
+    <span class="identifier">list</span><span class="unknown">.</span><span class="function">append</span><span class="delimiter">(</span><span class="number">4</span><span class="delimiter">)</span><span class="delimiter">;</span>
+    <span class="identifier">list</span><span class="unknown">.</span><span class="function">append</span><span class="delimiter">(</span><span class="number">5</span><span class="delimiter">)</span><span class="delimiter">;</span>
+    <span class="identifier">list</span><span class="unknown">.</span><span class="function">print</span><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">;</span> <span class="comment">// 1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 5 -&gt; NULL</span>
+    <span class="keyword">cout</span> <span class="operator">&lt;&lt;</span> <span class="string">&quot;Size: &quot;</span> <span class="operator">&lt;&lt;</span> <span class="identifier">list</span><span class="unknown">.</span><span class="function">size</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="operator">&lt;&lt;</span> <span class="keyword">endl</span><span class="delimiter">;</span>
+
+    <span class="keyword">cout</span> <span class="operator">&lt;&lt;</span> <span class="keyword">endl</span> <span class="operator">&lt;&lt;</span> <span class="string">&quot;=== Insert and Get ===&quot;</span> <span class="operator">&lt;&lt;</span> <span class="keyword">endl</span><span class="delimiter">;</span>
+    <span class="identifier">list</span><span class="unknown">.</span><span class="function">insertAt</span><span class="delimiter">(</span><span class="number">2</span><span class="delimiter">,</span> <span class="number">99</span><span class="delimiter">)</span><span class="delimiter">;</span>
+    <span class="identifier">list</span><span class="unknown">.</span><span class="function">print</span><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">;</span>
+    <span class="keyword">cout</span> <span class="operator">&lt;&lt;</span> <span class="string">&quot;Element at index 2: &quot;</span> <span class="operator">&lt;&lt;</span> <span class="identifier">list</span><span class="unknown">.</span><span class="function">get</span><span class="delimiter">(</span><span class="number">2</span><span class="delimiter">)</span> <span class="operator">&lt;&lt;</span> <span class="keyword">endl</span><span class="delimiter">;</span>
+
+    <span class="keyword">cout</span> <span class="operator">&lt;&lt;</span> <span class="keyword">endl</span> <span class="operator">&lt;&lt;</span> <span class="string">&quot;=== Find ===&quot;</span> <span class="operator">&lt;&lt;</span> <span class="keyword">endl</span><span class="delimiter">;</span>
+    <span class="keyword">cout</span> <span class="operator">&lt;&lt;</span> <span class="string">&quot;Index of 99: &quot;</span> <span class="operator">&lt;&lt;</span> <span class="identifier">list</span><span class="unknown">.</span><span class="function">find</span><span class="delimiter">(</span><span class="number">99</span><span class="delimiter">)</span> <span class="operator">&lt;&lt;</span> <span class="keyword">endl</span><span class="delimiter">;</span>
+    <span class="keyword">cout</span> <span class="operator">&lt;&lt;</span> <span class="string">&quot;Index of 1000 (not present): &quot;</span> <span class="operator">&lt;&lt;</span> <span class="identifier">list</span><span class="unknown">.</span><span class="function">find</span><span class="delimiter">(</span><span class="number">1000</span><span class="delimiter">)</span> <span class="operator">&lt;&lt;</span> <span class="keyword">endl</span><span class="delimiter">;</span>
+
+    <span class="keyword">cout</span> <span class="operator">&lt;&lt;</span> <span class="keyword">endl</span> <span class="operator">&lt;&lt;</span> <span class="string">&quot;=== Remove ===&quot;</span> <span class="operator">&lt;&lt;</span> <span class="keyword">endl</span><span class="delimiter">;</span>
+    <span class="identifier">list</span><span class="unknown">.</span><span class="function">remove</span><span class="delimiter">(</span><span class="number">99</span><span class="delimiter">)</span><span class="delimiter">;</span>
+    <span class="identifier">list</span><span class="unknown">.</span><span class="function">print</span><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">;</span>
+    <span class="identifier">list</span><span class="unknown">.</span><span class="function">removeAt</span><span class="delimiter">(</span><span class="number">0</span><span class="delimiter">)</span><span class="delimiter">;</span>
+    <span class="identifier">list</span><span class="unknown">.</span><span class="function">print</span><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">;</span>
+
+    <span class="keyword">cout</span> <span class="operator">&lt;&lt;</span> <span class="keyword">endl</span> <span class="operator">&lt;&lt;</span> <span class="string">&quot;=== Reverse ===&quot;</span> <span class="operator">&lt;&lt;</span> <span class="keyword">endl</span><span class="delimiter">;</span>
+    <span class="identifier">list</span><span class="unknown">.</span><span class="function">reverse</span><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">;</span>
+    <span class="identifier">list</span><span class="unknown">.</span><span class="function">print</span><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">;</span>
+
+    <span class="keyword">cout</span> <span class="operator">&lt;&lt;</span> <span class="keyword">endl</span> <span class="operator">&lt;&lt;</span> <span class="string">&quot;=== Find Middle ===&quot;</span> <span class="operator">&lt;&lt;</span> <span class="keyword">endl</span><span class="delimiter">;</span>
+    <span class="keyword">cout</span> <span class="operator">&lt;&lt;</span> <span class="string">&quot;Middle element: &quot;</span> <span class="operator">&lt;&lt;</span> <span class="identifier">list</span><span class="unknown">.</span><span class="function">findMiddle</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="operator">&lt;&lt;</span> <span class="keyword">endl</span><span class="delimiter">;</span>
+
+    <span class="keyword">cout</span> <span class="operator">&lt;&lt;</span> <span class="keyword">endl</span> <span class="operator">&lt;&lt;</span> <span class="string">&quot;=== Cycle Detection ===&quot;</span> <span class="operator">&lt;&lt;</span> <span class="keyword">endl</span><span class="delimiter">;</span>
+    <span class="keyword">cout</span> <span class="operator">&lt;&lt;</span> <span class="string">&quot;Has cycle: &quot;</span> <span class="operator">&lt;&lt;</span> <span class="delimiter">(</span><span class="identifier">list</span><span class="unknown">.</span><span class="function">hasCycle</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="unknown">?</span> <span class="string">&quot;yes&quot;</span> <span class="unknown">:</span> <span class="string">&quot;no&quot;</span><span class="delimiter">)</span> <span class="operator">&lt;&lt;</span> <span class="keyword">endl</span><span class="delimiter">;</span>
+
+    <span class="keyword">cout</span> <span class="operator">&lt;&lt;</span> <span class="keyword">endl</span> <span class="operator">&lt;&lt;</span> <span class="string">&quot;=== Removing Duplicates ===&quot;</span> <span class="operator">&lt;&lt;</span> <span class="keyword">endl</span><span class="delimiter">;</span>
+    <span class="class_name">LinkedList</span> <span class="identifier">dupList</span><span class="delimiter">;</span>
+    <span class="keyword">for</span> <span class="delimiter">(</span><span class="keyword">int</span> <span class="identifier">v</span> <span class="unknown">:</span> <span class="delimiter">{</span><span class="number">1</span><span class="delimiter">,</span> <span class="number">2</span><span class="delimiter">,</span> <span class="number">2</span><span class="delimiter">,</span> <span class="number">3</span><span class="delimiter">,</span> <span class="number">3</span><span class="delimiter">,</span> <span class="number">3</span><span class="delimiter">,</span> <span class="number">4</span><span class="delimiter">,</span> <span class="number">1</span><span class="delimiter">}</span><span class="delimiter">)</span> <span class="identifier">dupList</span><span class="unknown">.</span><span class="function">push</span><span class="delimiter">(</span><span class="identifier">v</span><span class="delimiter">)</span><span class="delimiter">;</span>
+    <span class="identifier">dupList</span><span class="unknown">.</span><span class="function">reverse</span><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">;</span> <span class="comment">// restore insertion order for clarity</span>
+    <span class="keyword">cout</span> <span class="operator">&lt;&lt;</span> <span class="string">&quot;Before: &quot;</span><span class="delimiter">;</span>
+    <span class="identifier">dupList</span><span class="unknown">.</span><span class="function">print</span><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">;</span>
+    <span class="identifier">dupList</span><span class="unknown">.</span><span class="function">removeDuplicates</span><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">;</span>
+    <span class="keyword">cout</span> <span class="operator">&lt;&lt;</span> <span class="string">&quot;After:  &quot;</span><span class="delimiter">;</span>
+    <span class="identifier">dupList</span><span class="unknown">.</span><span class="function">print</span><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">;</span>
+    <span class="keyword">cout</span> <span class="operator">&lt;&lt;</span> <span class="string">&quot;Size after dedup: &quot;</span> <span class="operator">&lt;&lt;</span> <span class="identifier">dupList</span><span class="unknown">.</span><span class="function">size</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="operator">&lt;&lt;</span> <span class="keyword">endl</span><span class="delimiter">;</span>
+
+    <span class="keyword">cout</span> <span class="operator">&lt;&lt;</span> <span class="keyword">endl</span> <span class="operator">&lt;&lt;</span> <span class="string">&quot;=== Merging Two Sorted Lists ===&quot;</span> <span class="operator">&lt;&lt;</span> <span class="keyword">endl</span><span class="delimiter">;</span>
+    <span class="class_name">LinkedList</span> <span class="identifier">a</span><span class="delimiter">,</span> <span class="identifier">b</span><span class="delimiter">;</span>
+    <span class="keyword">for</span> <span class="delimiter">(</span><span class="keyword">int</span> <span class="identifier">v</span> <span class="unknown">:</span> <span class="delimiter">{</span><span class="number">5</span><span class="delimiter">,</span> <span class="number">3</span><span class="delimiter">,</span> <span class="number">1</span><span class="delimiter">}</span><span class="delimiter">)</span> <span class="identifier">a</span><span class="unknown">.</span><span class="function">push</span><span class="delimiter">(</span><span class="identifier">v</span><span class="delimiter">)</span><span class="delimiter">;</span> <span class="comment">// results in 1 -&gt; 3 -&gt; 5</span>
+    <span class="keyword">for</span> <span class="delimiter">(</span><span class="keyword">int</span> <span class="identifier">v</span> <span class="unknown">:</span> <span class="delimiter">{</span><span class="number">6</span><span class="delimiter">,</span> <span class="number">4</span><span class="delimiter">,</span> <span class="number">2</span><span class="delimiter">}</span><span class="delimiter">)</span> <span class="identifier">b</span><span class="unknown">.</span><span class="function">push</span><span class="delimiter">(</span><span class="identifier">v</span><span class="delimiter">)</span><span class="delimiter">;</span> <span class="comment">// results in 2 -&gt; 4 -&gt; 6</span>
+    <span class="keyword">cout</span> <span class="operator">&lt;&lt;</span> <span class="string">&quot;List A: &quot;</span><span class="delimiter">;</span> <span class="identifier">a</span><span class="unknown">.</span><span class="function">print</span><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">;</span>
+    <span class="keyword">cout</span> <span class="operator">&lt;&lt;</span> <span class="string">&quot;List B: &quot;</span><span class="delimiter">;</span> <span class="identifier">b</span><span class="unknown">.</span><span class="function">print</span><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">;</span>
+    <span class="class_name">LinkedList</span> <span class="identifier">merged</span> <span class="operator">=</span> <span class="class_name">LinkedList</span><span class="unknown">:</span><span class="unknown">:</span><span class="function">mergeSorted</span><span class="delimiter">(</span><span class="identifier">a</span><span class="delimiter">,</span> <span class="identifier">b</span><span class="delimiter">)</span><span class="delimiter">;</span>
+    <span class="keyword">cout</span> <span class="operator">&lt;&lt;</span> <span class="string">&quot;Merged: &quot;</span><span class="delimiter">;</span> <span class="identifier">merged</span><span class="unknown">.</span><span class="function">print</span><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">;</span>
+
+    <span class="keyword">cout</span> <span class="operator">&lt;&lt;</span> <span class="keyword">endl</span> <span class="operator">&lt;&lt;</span> <span class="string">&quot;=== Exception Handling for Invalid Index ===&quot;</span> <span class="operator">&lt;&lt;</span> <span class="keyword">endl</span><span class="delimiter">;</span>
+    <span class="keyword">try</span> <span class="delimiter">{</span>
+        <span class="identifier">list</span><span class="unknown">.</span><span class="function">get</span><span class="delimiter">(</span><span class="number">100</span><span class="delimiter">)</span><span class="delimiter">;</span>
+    <span class="delimiter">}</span> <span class="keyword">catch</span> <span class="delimiter">(</span><span class="keyword">const</span> <span class="identifier">out_of_range</span><span class="operator">&amp;</span> <span class="identifier">e</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">cout</span> <span class="operator">&lt;&lt;</span> <span class="string">&quot;Caught exception: &quot;</span> <span class="operator">&lt;&lt;</span> <span class="identifier">e</span><span class="unknown">.</span><span class="function">what</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="operator">&lt;&lt;</span> <span class="keyword">endl</span><span class="delimiter">;</span>
+    <span class="delimiter">}</span>
+
+    <span class="keyword">cout</span> <span class="operator">&lt;&lt;</span> <span class="keyword">endl</span> <span class="operator">&lt;&lt;</span> <span class="string">&quot;=== Doubly Linked List ===&quot;</span> <span class="operator">&lt;&lt;</span> <span class="keyword">endl</span><span class="delimiter">;</span>
+    <span class="class_name">DoublyLinkedList</span> <span class="identifier">dll</span><span class="delimiter">;</span>
+    <span class="identifier">dll</span><span class="unknown">.</span><span class="function">pushBack</span><span class="delimiter">(</span><span class="number">1</span><span class="delimiter">)</span><span class="delimiter">;</span>
+    <span class="identifier">dll</span><span class="unknown">.</span><span class="function">pushBack</span><span class="delimiter">(</span><span class="number">2</span><span class="delimiter">)</span><span class="delimiter">;</span>
+    <span class="identifier">dll</span><span class="unknown">.</span><span class="function">pushBack</span><span class="delimiter">(</span><span class="number">3</span><span class="delimiter">)</span><span class="delimiter">;</span>
+    <span class="identifier">dll</span><span class="unknown">.</span><span class="function">pushFront</span><span class="delimiter">(</span><span class="number">0</span><span class="delimiter">)</span><span class="delimiter">;</span>
+    <span class="identifier">dll</span><span class="unknown">.</span><span class="function">printForward</span><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">;</span>
+    <span class="identifier">dll</span><span class="unknown">.</span><span class="function">printBackward</span><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">;</span>
+    <span class="keyword">cout</span> <span class="operator">&lt;&lt;</span> <span class="string">&quot;Size: &quot;</span> <span class="operator">&lt;&lt;</span> <span class="identifier">dll</span><span class="unknown">.</span><span class="function">size</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="operator">&lt;&lt;</span> <span class="keyword">endl</span><span class="delimiter">;</span>
+
+    <span class="keyword">return</span> <span class="number">0</span><span class="delimiter">;</span>
+<span class="delimiter">}</span></pre>
+</body>
+</html>
